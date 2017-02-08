@@ -1,10 +1,10 @@
 package emu
 
 const (
-	MEMORY_SIZE      = 4096
-	VRAM_SIZE        = 64 * 32
-	REGISTERS_NUMBER = 16
-	STACK_SIZE       = 16
+	MemorySize      = 4096
+	VramSize        = 64 * 32
+	RegistersNumber = 16
+	StackSize       = 16
 )
 
 // Chip8 is the main struct holding all data relevant to the emulator.
@@ -26,10 +26,10 @@ func New() Chip8 {
 		0,
 		0,
 		0,
-		make([]uint16, STACK_SIZE, STACK_SIZE),
-		make([]uint8, REGISTERS_NUMBER, REGISTERS_NUMBER),
-		make([]uint8, MEMORY_SIZE, MEMORY_SIZE),
-		make([]uint8, VRAM_SIZE, VRAM_SIZE),
+		make([]uint16, StackSize, StackSize),
+		make([]uint8, RegistersNumber, RegistersNumber),
+		make([]uint8, MemorySize, MemorySize),
+		make([]uint8, VramSize, VramSize),
 		0,
 		0,
 	}
