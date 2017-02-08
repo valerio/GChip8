@@ -22,7 +22,10 @@ type Chip8 struct {
 	soundt uint8
 }
 
-// New initializes basic Chip8 data, but the emulator won't be in a runnable 
+// OpcodeFunc is a function that implements an opcode for Chip8
+type OpcodeFunc func(*Chip8)
+
+// New initializes basic Chip8 data, but the emulator won't be in a runnable
 // state until something is loaded.
 func New() Chip8 {
 	return Chip8{
