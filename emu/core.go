@@ -23,6 +23,7 @@ type Chip8 struct {
 	keypad []uint8
 	delayt uint8
 	soundt uint8
+	opcode uint16
 }
 
 // OpcodeFunc is a function that implements an opcode for Chip8
@@ -42,6 +43,7 @@ func New() Chip8 {
 		make([]uint8, 16, 16),
 		0,
 		0,
+		0,
 	}
 }
 
@@ -49,6 +51,7 @@ func New() Chip8 {
 func (c8 *Chip8) Step() {
 	// fetch
 	opcode := util.CombineBytes(c8.memory[c8.pc+1], c8.memory[c8.pc])
+	c8.opcode = opcode
 
 	// decode
 	instr, ok := OpcodeMap[opcode]
