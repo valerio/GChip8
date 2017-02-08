@@ -1,5 +1,8 @@
 package emu
 
+import "github.com/valep27/chip8/util"
+import "fmt"
+
 const (
 	memorySize      = 4096
 	vramSize        = 64 * 32
@@ -40,4 +43,26 @@ func New() Chip8 {
 		0,
 		0,
 	}
+}
+
+// Step executes a single cycle of emulation.
+func (c8 *Chip8) Step() {
+	// fetch
+	opcode := util.CombineBytes(c8.memory[c8.pc+1], c8.memory[c8.pc])
+
+	// decode
+	instr, ok := OpcodeMap[opcode]
+
+	if ok {
+		// exec
+		instr(c8)
+	} else {
+		// opcode not found
+		panic(fmt.Sprintf("No instruction for opcode: %v", opcode))
+	}
+
+	// TODO: wrap if > 4096?
+	c8.pc += 2
+
+	// TODO: update timers
 }
