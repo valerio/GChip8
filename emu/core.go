@@ -64,8 +64,15 @@ func (c8 *Chip8) Step() {
 		panic(fmt.Sprintf("No instruction for opcode: %v", opcode))
 	}
 
-	// TODO: wrap if > 4096?
-	c8.pc += 2
+	// update timers
+	if c8.delayt > 0 {
+		c8.delayt--
+	}
 
-	// TODO: update timers
+	if c8.soundt > 0 {
+		if c8.soundt == 1 {
+			// TODO beep boop
+		}
+		c8.soundt--
+	}
 }
