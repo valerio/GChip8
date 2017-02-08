@@ -17,10 +17,13 @@ type Chip8 struct {
 	V      []uint8
 	memory []uint8
 	vram   []uint8
+	keypad []uint8
 	delayt uint8
 	soundt uint8
 }
 
+// New initializes basic Chip8 data, but the emulator won't be in a runnable 
+// state until something is loaded.
 func New() Chip8 {
 	return Chip8{
 		0,
@@ -30,6 +33,7 @@ func New() Chip8 {
 		make([]uint8, registersNumber, registersNumber),
 		make([]uint8, memorySize, memorySize),
 		make([]uint8, vramSize, vramSize),
+		make([]uint8, 16, 16),
 		0,
 		0,
 	}
