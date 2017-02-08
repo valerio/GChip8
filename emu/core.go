@@ -10,9 +10,9 @@ const (
 // Chip8 is the main struct holding all data relevant to the emulator.
 // This includes registers (V0 to VF, PC, etc.), ram and framebuffer.
 type Chip8 struct {
-	I      uint8
+	I      uint16
 	pc     uint16
-	sp     uint8
+	sp     uint16
 	stack  []uint16
 	V      []uint8
 	memory []uint8
