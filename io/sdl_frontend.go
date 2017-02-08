@@ -10,10 +10,12 @@ type SdlFrontend struct {
 	window *sdl.Window
 }
 
+// NewSdlFrontend creates a new uninitialized frontend that uses SDL2.
 func NewSdlFrontend() SdlFrontend {
 	return SdlFrontend{nil}
 }
 
+// Initialize creates the window and sets up any internal state for the frontend.
 func (sf *SdlFrontend) Initialize() {
 	sdl.Init(sdl.INIT_EVERYTHING)
 
@@ -29,6 +31,7 @@ func (sf *SdlFrontend) Initialize() {
 	sf.window = window
 }
 
+// Draw will draw on the window the contents of the emulator framebuffer.
 func (sf *SdlFrontend) Draw(emulator emu.Chip8) {
 	surface, err := sf.window.GetSurface()
 	if err != nil {
@@ -40,6 +43,8 @@ func (sf *SdlFrontend) Draw(emulator emu.Chip8) {
 	sf.window.UpdateSurface()
 }
 
+// Close will free any resources, the window and quit the application.
+// Best used with defer.
 func (sf *SdlFrontend) Close() {
 	defer sf.window.Destroy()
 	sdl.Delay(3000)
