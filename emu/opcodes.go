@@ -1,8 +1,19 @@
 package emu
 
-// The mapping of opcodes to the function implementing it.
-var OpcodeMap = map[uint16]OpcodeFunc {
-    0x0000: Nop,
+// Decode maps an opcode to the function that implements it.
+func Decode(opcode uint16) (instr OpcodeFunc, ok bool) {
+    ok = true
+
+    switch opcode & 0xF000 {
+    case 0x0000:
+        instr = Nop
+    case 0x6000:
+        instr = SetVxToImmediate
+    default:
+        ok = false
+    }
+
+    return
 }
 
 // Nop does nothing

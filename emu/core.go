@@ -54,7 +54,7 @@ func (c8 *Chip8) Step() {
 	c8.opcode = opcode
 
 	// decode
-	instr, ok := OpcodeMap[opcode]
+	instr, ok := Decode(opcode)
 
 	if ok {
 		// exec
