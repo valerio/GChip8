@@ -166,3 +166,81 @@ func AddVyToVx(c8 *Chip8) {
 
 	c8.pc += 2
 }
+
+// SubVyToVx implements opcode 8XY5
+// Math	Vx -= Vy	VY is subtracted from VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
+func SubVyToVx(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+
+	result, borrow := util.CheckedSub(c8.V[x], c8.V[y])
+	c8.V[0xF] = 0
+	c8.V[x] = result
+
+	if borrow {
+		c8.V[0xF] = 1
+	}
+
+	c8.pc += 2
+}
+
+// ShiftVxRight implements opcode 8XY6
+// BitOp	Vx >> 1	Shifts VX right by one. VF is set to the value of the least significant bit of VX before the shift.[2]
+func ShiftVxRight(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+
+	lsb := uint8(x) & 1
+	c8.V[x] = c8.V[x] >> 1
+	c8.V[0xF] = lsb
+
+	c8.pc += 2
+}
+
+// SubVxToVy implements opcode 8XY7
+// Math	Vx=Vy-Vx	Sets VX to VY minus VX. VF is set to 0 when there's a borrow, and 1 when there isn't.
+func SubVxToVy(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+
+	result, borrow := util.CheckedSub(c8.V[y], c8.V[x])
+	c8.V[0xF] = 0
+	c8.V[x] = result
+
+	if borrow {
+		c8.V[0xF] = 1
+	}
+
+	c8.pc += 2
+}
+
+// ShiftVxLeft implements opcode 8XYE
+// BitOp	Vx << 1	Shifts VX left by one. VF is set to the value of the most significant bit of VX before the shift.[2]
+func ShiftVxLeft(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+
+	msb := uint8(x) & 0x80
+	c8.V[x] = c8.V[x] << 1
+	c8.V[0xF] = msb
+
+	c8.pc += 2
+}
+
+// SkipIfVxNotEqualToVy implements opcode 9XY0
+// Cond	if(Vx!=Vy)	Skips the next instruction if VX doesn't equal VY.
+func SkipIfVxNotEqualToVy(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+
+	if c8.V[x] != c8.V[y] {
+		c8.pc += 4
+	} else {
+		c8.pc += 2
+	}
+}
+
+// SetMemoryNNN implements opcode ANNN
+// MEM	I = NNN	Sets I to the address NNN.
+func SetMemoryNNN(c8 *Chip8) {
+	c8.I = c8.opcode & 0x0FFF
+    c8.pc += 2
+}
