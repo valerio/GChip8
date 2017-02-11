@@ -1,6 +1,6 @@
 package io
 
-import "github.com/valep27/chip8/emu"
+import "github.com/valep27/GChip8/emu"
 
 // Frontend is the basic interface for graphical output.
 // A frontend might be implemented by SDL, opengl or similar libraries.

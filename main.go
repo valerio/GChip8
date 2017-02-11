@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	"github.com/valep27/chip8/io"
-	"github.com/valep27/chip8/emu"
+	"github.com/valep27/GChip8/emu"
+	"github.com/valep27/GChip8/io"
 )
 
 func main() {

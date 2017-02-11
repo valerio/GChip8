@@ -1,7 +1,7 @@
 package io
 
 import (
-	"github.com/valep27/chip8/emu"
+	"github.com/valep27/GChip8/emu"
 	"github.com/veandco/go-sdl2/sdl"
 )
 

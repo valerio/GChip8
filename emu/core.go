@@ -1,6 +1,6 @@
 package emu
 
-import "github.com/valep27/chip8/util"
+import "github.com/valep27/GChip8/util"
 import "fmt"
 
 const (

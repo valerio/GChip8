@@ -1,7 +1,7 @@
 package emu
 
 import (
-	"github.com/valep27/chip8/util"
+	"github.com/valep27/GChip8/util"
 )
 
 // Decode maps an opcode to the function that implements it.
@@ -242,5 +242,5 @@ func SkipIfVxNotEqualToVy(c8 *Chip8) {
 // MEM	I = NNN	Sets I to the address NNN.
 func SetMemoryNNN(c8 *Chip8) {
 	c8.I = c8.opcode & 0x0FFF
-    c8.pc += 2
+	c8.pc += 2
 }
