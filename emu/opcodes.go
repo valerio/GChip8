@@ -1,5 +1,9 @@
 package emu
 
+import (
+	"github.com/valep27/chip8/util"
+)
+
 // Decode maps an opcode to the function that implements it.
 func Decode(opcode uint16) (instr OpcodeFunc, ok bool) {
 	ok = true
@@ -43,9 +47,9 @@ func ClearScreen(c8 *Chip8) {
 
 // ReturnFromSub implements opcode 00EE.
 // Returns from a subroutine, meaning it will set the PC to the last stack value.
-func ReturnFromSub(c8 *Chip8) { 
-    c8.pc = c8.stack[c8.sp]
-    c8.sp++
+func ReturnFromSub(c8 *Chip8) {
+	c8.pc = c8.stack[c8.sp]
+	c8.sp++
 }
 
 // JumpAddr implements opcode 1NNN.
@@ -65,83 +69,100 @@ func CallSubAtNNN(c8 *Chip8) {
 // SkipIfVxEqualToNN implements opcode 3XNN.
 // It will skip the next instruction if Vx == NN.
 func SkipIfVxEqualToNN(c8 *Chip8) {
-    x := (c8.opcode >> 8) & 0x000F
-    nn := c8.opcode & 0x00FF
+	x := (c8.opcode >> 8) & 0x000F
+	nn := c8.opcode & 0x00FF
 
-    if c8.V[x] == uint8(nn) {
-        c8.pc += 4
-    } else {
-        c8.pc += 2
-    }
+	if c8.V[x] == uint8(nn) {
+		c8.pc += 4
+	} else {
+		c8.pc += 2
+	}
 }
 
 // SkipIfVxNotEqualToNN implements opcode 4XNN.
 // It will skip the next instruction if Vx != NN.
 func SkipIfVxNotEqualToNN(c8 *Chip8) {
-    x := (c8.opcode >> 8) & 0x000F
-    nn := c8.opcode & 0x00FF
+	x := (c8.opcode >> 8) & 0x000F
+	nn := c8.opcode & 0x00FF
 
-    if c8.V[x] != uint8(nn) {
-        c8.pc += 4
-    } else {
-        c8.pc += 2
-    }
+	if c8.V[x] != uint8(nn) {
+		c8.pc += 4
+	} else {
+		c8.pc += 2
+	}
 }
 
 // SkipIfVxEqualToVy implements opcode 5XY0.
 // It will skip the next instruction if Vx == Vy.
 func SkipIfVxEqualToVy(c8 *Chip8) {
-    x := (c8.opcode >> 8) & 0x000F
-    y := (c8.opcode >> 4) & 0x000F
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
 
-    if c8.V[x] == c8.V[y] {
-        c8.pc += 4
-    } else {
-        c8.pc += 2
-    }
+	if c8.V[x] == c8.V[y] {
+		c8.pc += 4
+	} else {
+		c8.pc += 2
+	}
 }
 
 // AddNNToVx implements opcode 7XNN
 // It will add NN to the Vx register
 func AddNNToVx(c8 *Chip8) {
-    x := (c8.opcode >> 8) & 0x000F
-    nn := uint8(c8.opcode & 0x00FF)
-    c8.V[x] += nn
-    c8.pc += 2
+	x := (c8.opcode >> 8) & 0x000F
+	nn := uint8(c8.opcode & 0x00FF)
+	c8.V[x] += nn
+	c8.pc += 2
 }
 
 // AssignVyToVx implements opcode 8XY0
 // Assigns the value of Vy to Vx
-func AssignVyToVx(c8 *Chip8)  {
-    x := (c8.opcode >> 8) & 0x000F
-    y := (c8.opcode >> 4) & 0x000F
-    c8.V[x] = c8.V[y]
-    c8.pc += 2
+func AssignVyToVx(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+	c8.V[x] = c8.V[y]
+	c8.pc += 2
 }
 
 // VxOrVy implements opcode 8XY1
 // Assigns the value of Vx | Vy to Vx
-func VxOrVy(c8 *Chip8)  {
-    x := (c8.opcode >> 8) & 0x000F
-    y := (c8.opcode >> 4) & 0x000F
-    c8.V[x] = c8.V[x] | c8.V[y]
-    c8.pc += 2
+func VxOrVy(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+	c8.V[x] = c8.V[x] | c8.V[y]
+	c8.pc += 2
 }
 
 // VxAndVy implements opcode 8XY2
 // Assigns the value of Vx & Vy to Vx
-func VxAndVy(c8 *Chip8)  {
-    x := (c8.opcode >> 8) & 0x000F
-    y := (c8.opcode >> 4) & 0x000F
-    c8.V[x] = c8.V[x] & c8.V[y]
-    c8.pc += 2
+func VxAndVy(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+	c8.V[x] = c8.V[x] & c8.V[y]
+	c8.pc += 2
 }
 
 // VxXorVy implements opcode 8XY3
 // Assigns the value of Vx xor Vy to Vx
-func VxXorVy(c8 *Chip8)  {
-    x := (c8.opcode >> 8) & 0x000F
-    y := (c8.opcode >> 4) & 0x000F
-    c8.V[x] = c8.V[x] ^ c8.V[y]
-    c8.pc += 2
+func VxXorVy(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+	c8.V[x] = c8.V[x] ^ c8.V[y]
+	c8.pc += 2
+}
+
+// AddVyToVx implements opcode 8XY4
+// Math	Vx += Vy	Adds VY to VX. VF is set to 1 when there's a carry, and to 0 when there isn't.
+func AddVyToVx(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	y := (c8.opcode >> 4) & 0x000F
+
+	result, carry := util.CheckedAdd(c8.V[x], c8.V[y])
+	c8.V[0xF] = 0
+	c8.V[x] = result
+
+	if carry {
+		c8.V[0xF] = 1
+	}
+
+	c8.pc += 2
 }
