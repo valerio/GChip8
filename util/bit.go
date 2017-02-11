@@ -5,3 +5,16 @@ package util
 func CombineBytes(low, high uint8) uint16 {
     return (uint16(high) << 8) | uint16(low)
 }
+
+// CheckedAdd adds two 8 bit unsigned values and detects if an overflow
+func CheckedAdd(a, b uint8) (result uint8, overflow bool) {
+    overflow = false
+    highBits := (uint16(a) + uint16(b)) & 0xFF00
+
+    if highBits > 0 {
+        overflow = true
+    }
+
+    result = a + b
+    return
+}
