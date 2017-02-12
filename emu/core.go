@@ -78,3 +78,8 @@ func (c8 *Chip8) Step() {
 		c8.soundt--
 	}
 }
+
+// IsKeyPressed checks whether key 0 to 15 was pressed on the keypad.
+func (c8 *Chip8) IsKeyPressed(key uint8) bool {
+	return c8.keypad[key] != 0
+}

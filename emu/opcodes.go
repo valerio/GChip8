@@ -303,13 +303,25 @@ func Draw(c8 *Chip8) {
 // SkipIfKeyPressed implements opcode EX9E
 // KeyOp	if(key()==Vx)	Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction is a jump to skip a code block)
 func SkipIfKeyPressed(c8 *Chip8) {
-	// TODO
+	x := uint8((c8.opcode >> 8) & 0x000F)
+
+	if c8.IsKeyPressed(x) {
+		c8.pc += 4
+	} else {
+		c8.pc += 2
+	}
 }
 
 // SkipIfKeyNotPressed implements opcode EXA1
 // KeyOp	if(key()!=Vx)	Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction is a jump to skip a code block)
 func SkipIfKeyNotPressed(c8 *Chip8) {
-	// TODO
+	x := uint8((c8.opcode >> 8) & 0x000F)
+
+	if c8.IsKeyPressed(x) == false {
+		c8.pc += 4
+	} else {
+		c8.pc += 2
+	}
 }
 
 // SetVxToDelay implements opcode FX07
