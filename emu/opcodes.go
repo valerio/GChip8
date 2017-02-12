@@ -263,3 +263,75 @@ func RandToVx(c8 *Chip8) {
 
 	c8.pc += 2
 }
+
+// Draw implements opcode DXYN
+// Disp	draw(Vx,Vy,N)	Draws a sprite at coordinate (VX, VY)
+func Draw(c8 *Chip8) {
+	// TODO
+}
+
+// SkipIfKeyPressed implements opcode EX9E
+// KeyOp	if(key()==Vx)	Skips the next instruction if the key stored in VX is pressed. (Usually the next instruction is a jump to skip a code block)
+func SkipIfKeyPressed(c8 *Chip8) {
+	// TODO
+}
+
+// SkipIfKeyNotPressed implements opcode EXA1
+// KeyOp	if(key()!=Vx)	Skips the next instruction if the key stored in VX isn't pressed. (Usually the next instruction is a jump to skip a code block)
+func SkipIfKeyNotPressed(c8 *Chip8) {
+	// TODO
+}
+
+// SetVxToDelay implements opcode FX07
+// Timer	Vx = get_delay()	Sets VX to the value of the delay timer.
+func SetVxToDelay(c8 *Chip8) {
+	// TODO
+}
+
+// WaitForKeyPress implements opcode FX0A
+// KeyOp	Vx = get_key()	A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event)
+func WaitForKeyPress(c8 *Chip8) {
+	// TODO
+}
+
+// SetDelayToVx implements opcode FX15
+// Timer	delay_timer(Vx)	Sets the delay timer to VX.
+func SetDelayToVx(c8 *Chip8) {
+	// TODO
+}
+
+// SetSoundToVx implements opcode FX18
+// Sound	sound_timer(Vx)	Sets the sound timer to VX.
+func SetSoundToVx(c8 *Chip8) {
+	// TODO
+}
+
+// AddVxToI implements opcode FX1E
+// MEM	I +=Vx	Adds VX to I.[3]
+func AddVxToI(c8 *Chip8) {
+	// TODO
+}
+
+// SetIToSpriteAddr implements opcode FX29
+// MEM	I=sprite_addr[Vx]	Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font.
+func SetIToSpriteAddr(c8 *Chip8) {
+	// TODO
+}
+
+// SetBCD implements opcode FX33
+// BCD	set_BCD(Vx);
+func SetBCD(c8 *Chip8) {
+	// TODO
+}
+
+// DumpRegisters implements opcode FX55
+// MEM	reg_dump(Vx,&I)	Stores V0 to VX (including VX) in memory starting at address I.[4]
+func DumpRegisters(c8 *Chip8) {
+	// TODO
+}
+
+// LoadRegisters implements opcode FX65
+// MEM	reg_load(Vx,&I)	Fills V0 to VX (including VX) with values from memory starting at address I.[4]
+func LoadRegisters(c8 *Chip8) {
+	// TODO
+}
