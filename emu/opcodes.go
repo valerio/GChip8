@@ -1,6 +1,8 @@
 package emu
 
 import (
+	"math/rand"
+
 	"github.com/valep27/GChip8/util"
 )
 
@@ -242,5 +244,22 @@ func SkipIfVxNotEqualToVy(c8 *Chip8) {
 // MEM	I = NNN	Sets I to the address NNN.
 func SetMemoryNNN(c8 *Chip8) {
 	c8.I = c8.opcode & 0x0FFF
+	c8.pc += 2
+}
+
+// JumpAddrSum implements opcode BNNN
+// Flow PC=V0+NNN	Jumps to the address NNN plus V0.
+func JumpAddrSum(c8 *Chip8) {
+	c8.pc = (c8.opcode & 0x0FFF) + uint16(c8.V[0])
+}
+
+// RandToVx implements opcode CXNN
+// Rand Vx=rand()&NN	Sets VX to the result of a bitwise and operation on a random number (Typically: 0 to 255) and NN.
+func RandToVx(c8 *Chip8) {
+	x := (c8.opcode >> 8) & 0x000F
+	nn := uint8(c8.opcode)
+
+	c8.V[x] = uint8(rand.Intn(256)) & nn
+
 	c8.pc += 2
 }
