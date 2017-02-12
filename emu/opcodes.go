@@ -267,7 +267,37 @@ func RandToVx(c8 *Chip8) {
 // Draw implements opcode DXYN
 // Disp	draw(Vx,Vy,N)	Draws a sprite at coordinate (VX, VY)
 func Draw(c8 *Chip8) {
-	// TODO
+	x := int(c8.V[(c8.opcode>>8)&0x000F])
+	y := int(c8.V[(c8.opcode>>4)&0x000F])
+	height := int(c8.opcode & 0x000F)
+
+	c8.V[0xF] = 0
+
+	for row := 0; row < height; row++ {
+		pixelRow := c8.memory[c8.I+uint16(row)]
+
+		for col := 0; col < 8; col++ {
+			// check if pixel went from 0 to 1
+			colMask := uint8(0x80 >> uint(col))
+			pixelUpdated := (colMask & pixelRow) != 0
+			pixelAddress := (x + row + ((y + col) * 64))
+
+			if pixelUpdated {
+				// if pixel was already 1, there's a collision
+				collision := c8.vram[pixelAddress] == 1
+
+				if collision {
+					c8.V[0xF] = 1
+				}
+
+				// flip the pixel
+				c8.vram[pixelAddress] ^= 1
+			}
+		}
+	}
+
+	c8.drawFlag = true
+	c8.pc += 2
 }
 
 // SkipIfKeyPressed implements opcode EX9E
