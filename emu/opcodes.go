@@ -7,14 +7,99 @@ import (
 )
 
 // Decode maps an opcode to the function that implements it.
+// It's wonderful. I love it. Just look at it.
 func Decode(opcode uint16) (instr OpcodeFunc, ok bool) {
 	ok = true
 
 	switch opcode & 0xF000 {
-	case 0x0000:
-		instr = Nop
+	case 0x0:
+		switch opcode & 0x00FF {
+		case 0xE0:
+			instr = ClearScreen
+		case 0xEE:
+			instr = ReturnFromSub
+		default:
+			ok = false
+		}
+	case 0x1000:
+		instr = JumpAddr
+	case 0x2000:
+		instr = CallSubAtNNN
+	case 0x3000:
+		instr = SkipIfVxEqualToNN
+	case 0x4000:
+		instr = SkipIfVxNotEqualToNN
+	case 0x5000:
+		instr = SkipIfVxEqualToVy
 	case 0x6000:
 		instr = SetVxToImmediate
+	case 0x7000:
+		instr = AddNNToVx
+	case 0x8000:
+		switch opcode & 0x000F {
+		case 0x0:
+			instr = AssignVyToVx
+		case 0x1:
+			instr = VxOrVy
+		case 0x2:
+			instr = VxAndVy
+		case 0x3:
+			instr = VxXorVy
+		case 0x4:
+			instr = AddVyToVx
+		case 0x5:
+			instr = SubVyToVx
+		case 0x6:
+			instr = ShiftVxRight
+		case 0x7:
+			instr = SubVxToVy
+		case 0xE:
+			instr = ShiftVxLeft
+		default:
+			ok = false
+		}
+	case 0x9000:
+		instr = SkipIfVxNotEqualToVy
+	case 0xA000:
+		instr = SetMemoryNNN
+	case 0xB000:
+		instr = JumpAddrSum
+	case 0xC000:
+		instr = RandToVx
+	case 0xD000:
+		instr = Draw
+	case 0xE000:
+		switch opcode & 0x000F {
+		case 0xE:
+			instr = SkipIfKeyPressed
+		case 0x1:
+			instr = SkipIfKeyNotPressed
+		default:
+			ok = false
+		}
+	case 0xF000:
+		switch opcode & 0x00FF {
+		case 0x07:
+			instr = SetVxToDelay
+		case 0x0A:
+			instr = WaitForKeyPress
+		case 0x15:
+			instr = SetDelayToVx
+		case 0x18:
+			instr = SetSoundToVx
+		case 0x1E:
+			instr = AddVxToI
+		case 0x29:
+			instr = SetIToSpriteAddr
+		case 0x33:
+			instr = SetBCD
+		case 0x55:
+			instr = DumpRegisters
+		case 0x65:
+			instr = LoadRegisters
+		default:
+			ok = false
+		}
 	default:
 		ok = false
 	}
