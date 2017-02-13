@@ -335,7 +335,8 @@ func SetVxToDelay(c8 *Chip8) {
 // WaitForKeyPress implements opcode FX0A
 // KeyOp	Vx = get_key()	A key press is awaited, and then stored in VX. (Blocking Operation. All instruction halted until next key event)
 func WaitForKeyPress(c8 *Chip8) {
-	// TODO
+	c8.stopped = true
+	c8.pc += 2
 }
 
 // SetDelayToVx implements opcode FX15
@@ -365,13 +366,22 @@ func AddVxToI(c8 *Chip8) {
 // SetIToSpriteAddr implements opcode FX29
 // MEM	I=sprite_addr[Vx]	Sets I to the location of the sprite for the character in VX. Characters 0-F (in hexadecimal) are represented by a 4x5 font.
 func SetIToSpriteAddr(c8 *Chip8) {
-	// TODO
+	x := (c8.opcode >> 8) & 0x000F
+	c8.I = uint16(c8.V[x]) * 5
+	c8.pc += 2
 }
 
 // SetBCD implements opcode FX33
 // BCD	set_BCD(Vx);
 func SetBCD(c8 *Chip8) {
-	// TODO
+	x := (c8.opcode >> 8) & 0x000F
+	bcdValue := c8.V[x]
+
+	c8.memory[c8.I] = bcdValue / 100
+	c8.memory[c8.I+1] = (bcdValue % 100) / 10
+	c8.memory[c8.I+2] = (bcdValue % 100) % 10
+
+	c8.pc += 2
 }
 
 // DumpRegisters implements opcode FX55

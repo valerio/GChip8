@@ -25,6 +25,7 @@ type Chip8 struct {
 	soundt   uint8
 	opcode   uint16
 	drawFlag bool
+	stopped  bool
 }
 
 // OpcodeFunc is a function that implements an opcode for Chip8
@@ -45,6 +46,7 @@ func New() Chip8 {
 		0,
 		0,
 		0,
+		false,
 		false,
 	}
 }
