@@ -327,7 +327,9 @@ func SkipIfKeyNotPressed(c8 *Chip8) {
 // SetVxToDelay implements opcode FX07
 // Timer	Vx = get_delay()	Sets VX to the value of the delay timer.
 func SetVxToDelay(c8 *Chip8) {
-	// TODO
+	x := (c8.opcode >> 8) & 0x000F
+	c8.V[x] = c8.delayt
+	c8.pc += 2
 }
 
 // WaitForKeyPress implements opcode FX0A
@@ -339,19 +341,25 @@ func WaitForKeyPress(c8 *Chip8) {
 // SetDelayToVx implements opcode FX15
 // Timer	delay_timer(Vx)	Sets the delay timer to VX.
 func SetDelayToVx(c8 *Chip8) {
-	// TODO
+	x := (c8.opcode >> 8) & 0x000F
+	c8.delayt = c8.V[x]
+	c8.pc += 2
 }
 
 // SetSoundToVx implements opcode FX18
 // Sound	sound_timer(Vx)	Sets the sound timer to VX.
 func SetSoundToVx(c8 *Chip8) {
-	// TODO
+	x := (c8.opcode >> 8) & 0x000F
+	c8.soundt = c8.V[x]
+	c8.pc += 2
 }
 
 // AddVxToI implements opcode FX1E
 // MEM	I +=Vx	Adds VX to I.[3]
 func AddVxToI(c8 *Chip8) {
-	// TODO
+	x := (c8.opcode >> 8) & 0x000F
+	c8.I += uint16(c8.V[x])
+	c8.pc += 2
 }
 
 // SetIToSpriteAddr implements opcode FX29
@@ -369,11 +377,23 @@ func SetBCD(c8 *Chip8) {
 // DumpRegisters implements opcode FX55
 // MEM	reg_dump(Vx,&I)	Stores V0 to VX (including VX) in memory starting at address I.[4]
 func DumpRegisters(c8 *Chip8) {
-	// TODO
+	x := int((c8.opcode >> 8) & 0x000F)
+
+	for i := 0; i <= x; i++ {
+		c8.memory[int(c8.I)+i] = c8.V[i]
+	}
+
+	c8.pc += 2
 }
 
 // LoadRegisters implements opcode FX65
 // MEM	reg_load(Vx,&I)	Fills V0 to VX (including VX) with values from memory starting at address I.[4]
 func LoadRegisters(c8 *Chip8) {
-	// TODO
+	x := int((c8.opcode >> 8) & 0x000F)
+
+	for i := 0; i <= x; i++ {
+		c8.V[i] = c8.memory[int(c8.I)+i]
+	}
+
+	c8.pc += 2
 }
