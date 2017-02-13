@@ -32,7 +32,7 @@ func (sf *SdlFrontend) Initialize() {
 }
 
 // Draw will draw on the window the contents of the emulator framebuffer.
-func (sf *SdlFrontend) Draw(emulator emu.Chip8) {
+func (sf *SdlFrontend) Draw(emulator *emu.Chip8) {
 	surface, err := sf.window.GetSurface()
 	if err != nil {
 		panic(err)
@@ -47,6 +47,5 @@ func (sf *SdlFrontend) Draw(emulator emu.Chip8) {
 // Best used with defer.
 func (sf *SdlFrontend) Close() {
 	defer sf.window.Destroy()
-	sdl.Delay(3000)
 	sdl.Quit()
 }
