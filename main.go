@@ -20,7 +20,7 @@ func main() {
 
 	defer front.Close()
 
-	front.Draw(&chip8)
+	front.Draw(chip8)
 
 	running := true
 	for running {

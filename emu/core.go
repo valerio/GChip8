@@ -2,6 +2,7 @@ package emu
 
 import "github.com/valep27/GChip8/util"
 import "fmt"
+import "io/ioutil"
 
 const (
 	memorySize      = 4096
@@ -53,10 +54,10 @@ type OpcodeFunc func(*Chip8)
 
 // New initializes basic Chip8 data, but the emulator won't be in a runnable
 // state until something is loaded.
-func New() Chip8 {
-	return Chip8{
+func New() *Chip8 {
+	c8 := &Chip8{
 		0,
-		0,
+		0x200,
 		0,
 		make([]uint16, stackSize, stackSize),
 		make([]uint8, registersNumber, registersNumber),
@@ -68,6 +69,25 @@ func New() Chip8 {
 		0,
 		false,
 		false,
+	}
+
+	for i := 0; i < len(fontSet); i++ {
+		c8.memory[i] = fontSet[i]
+	}
+
+	return c8
+}
+
+// LoadRom will load a rom file in memory, starting at address 0x200 (512).
+func (c8 *Chip8) LoadRom(path string) {
+	buffer, err := ioutil.ReadFile(path)
+
+	if err != nil {
+		panic(fmt.Sprintf("Cannot read file %v, error: %s\n", path, err.Error()))
+	}
+
+	for i := 0; i < len(buffer); i++ {
+		c8.memory[0x200 + i] = buffer[i]
 	}
 }
 
