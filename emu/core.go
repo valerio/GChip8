@@ -125,3 +125,9 @@ func (c8 *Chip8) Step() {
 func (c8 *Chip8) IsKeyPressed(key uint8) bool {
 	return c8.keypad[key] != 0
 }
+
+// GetPixelFrameBuffer returns a slice representing the framebuffer.
+// Every element in the slice represents one pixel color, which can be 0 (black) or 1 (white).
+func (c8 *Chip8) GetPixelFrameBuffer() []uint8 {
+	return c8.vram
+}
