@@ -135,8 +135,8 @@ func clearScreen(c8 *Chip8) {
 // ReturnFromSub implements opcode 00EE.
 // Returns from a subroutine, meaning it will set the PC to the last stack value.
 func returnFromSub(c8 *Chip8) {
-	c8.pc = c8.stack[c8.sp] + 2
 	c8.sp--
+	c8.pc = c8.stack[c8.sp] + 2
 }
 
 // JumpAddr implements opcode 1NNN.
