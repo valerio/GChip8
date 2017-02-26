@@ -352,9 +352,9 @@ func randToVx(c8 *Chip8) {
 // Draw implements opcode DXYN
 // Disp	draw(Vx,Vy,N)	Draws a sprite at coordinate (VX, VY)
 func draw(c8 *Chip8) {
-	x := int(c8.V[(c8.opcode>>8)&0x000F])
-	y := int(c8.V[(c8.opcode>>4)&0x000F])
-	height := int(c8.opcode & 0x000F)
+	x := int(c8.V[(c8.opcode>>8)&0xF])
+	y := int(c8.V[(c8.opcode>>4)&0xF])
+	height := int(c8.opcode & 0xF)
 
 	c8.V[0xF] = 0
 
@@ -365,7 +365,7 @@ func draw(c8 *Chip8) {
 			// check if pixel went from 0 to 1
 			colMask := uint8(0x80 >> uint(col))
 			pixelUpdated := (colMask & pixelRow) != 0
-			pixelAddress := (x + row + ((y + col) * 64))
+			pixelAddress := (x + col + ((y + row) * 64))
 
 			if pixelUpdated {
 				// if pixel was already 1, there's a collision
