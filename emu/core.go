@@ -117,6 +117,7 @@ func (c8 *Chip8) Step() {
 	if c8.soundt > 0 {
 		if c8.soundt == 1 {
 			// TODO beep boop
+			fmt.Println("BOOP")
 		}
 		c8.soundt--
 	}
