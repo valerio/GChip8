@@ -1,0 +1,18 @@
+{
+	"ImportPath": "github.com/valep27/GChip8",
+	"GoVersion": "go1.7.4",
+	"Packages": [
+		"./src/..."
+	],
+	"Deps": [
+		{
+			"ImportPath": "github.com/urfave/cli",
+			"Comment": "v1.19.1",
+			"Rev": "0bdeddeeb0f650497d603c4ad7b20cfe685682f6"
+		},
+		{
+			"ImportPath": "github.com/veandco/go-sdl2/sdl",
+			"Rev": "deb5dd415f78d4902db7f10a417dfbccbf54685b"
+		}
+	]
+}
