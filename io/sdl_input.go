@@ -1,7 +1,6 @@
 package io
 
 import "github.com/veandco/go-sdl2/sdl"
-import "fmt"
 
 // SdlInput implements basic drawing using SDL2.
 type SdlInput struct {
@@ -12,25 +11,29 @@ func NewSdlInput() SdlInput {
 	return SdlInput{}
 }
 
-// Poll polls polls
-func (i *SdlInput) Poll() (keyPressed Key) {
+// Poll polls for an input event and return the key that was pressed (mapped to Chip8 keys)
+// and whether the event was for a key up or down event.
+func (i *SdlInput) Poll() (keyPressed Key, up bool) {
 	event := sdl.PollEvent()
+	up = true
 	keyPressed = KEY_NONE
 
 	switch t := event.(type) {
 	case *sdl.QuitEvent:
 	case *sdl.MouseMotionEvent:
-		fmt.Printf("[%d ms] MouseMotion\ttype:%d\tid:%d\tx:%d\ty:%d\txrel:%d\tyrel:%d\n",
-			t.Timestamp, t.Type, t.Which, t.X, t.Y, t.XRel, t.YRel)
+		// fmt.Printf("[%d ms] MouseMotion\ttype:%d\tid:%d\tx:%d\ty:%d\txrel:%d\tyrel:%d\n",
+		// 	t.Timestamp, t.Type, t.Which, t.X, t.Y, t.XRel, t.YRel)
 	case *sdl.MouseButtonEvent:
-		fmt.Printf("[%d ms] MouseButton\ttype:%d\tid:%d\tx:%d\ty:%d\tbutton:%d\tstate:%d\n",
-			t.Timestamp, t.Type, t.Which, t.X, t.Y, t.Button, t.State)
+		// fmt.Printf("[%d ms] MouseButton\ttype:%d\tid:%d\tx:%d\ty:%d\tbutton:%d\tstate:%d\n",
+		// 	t.Timestamp, t.Type, t.Which, t.X, t.Y, t.Button, t.State)
 	case *sdl.MouseWheelEvent:
-		fmt.Printf("[%d ms] MouseWheel\ttype:%d\tid:%d\tx:%d\ty:%d\n",
-			t.Timestamp, t.Type, t.Which, t.X, t.Y)
+		// fmt.Printf("[%d ms] MouseWheel\ttype:%d\tid:%d\tx:%d\ty:%d\n",
+		// 	t.Timestamp, t.Type, t.Which, t.X, t.Y)
+	case *sdl.KeyDownEvent:
+		up = false
 	case *sdl.KeyUpEvent:
-		fmt.Printf("[%d ms] Keyboard\ttype:%d\tsym:%c\tmodifiers:%d\tstate:%d\trepeat:%d\n",
-			t.Timestamp, t.Type, t.Keysym.Sym, t.Keysym.Mod, t.State, t.Repeat)
+		// fmt.Printf("[%d ms] Keyboard\ttype:%d\tsym:%c\tmodifiers:%d\tstate:%d\trepeat:%d\n",
+		// 	t.Timestamp, t.Type, t.Keysym.Sym, t.Keysym.Mod, t.State, t.Repeat)
 
 		switch t.Keysym.Sym {
 		case sdl.K_1:

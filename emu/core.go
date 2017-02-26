@@ -1,6 +1,7 @@
 package emu
 
 import "github.com/valep27/GChip8/util"
+
 import "fmt"
 import "io/ioutil"
 
@@ -87,7 +88,7 @@ func (c8 *Chip8) LoadRom(path string) {
 	}
 
 	for i := 0; i < len(buffer); i++ {
-		c8.memory[0x200 + i] = buffer[i]
+		c8.memory[0x200+i] = buffer[i]
 	}
 }
 
@@ -130,4 +131,18 @@ func (c8 *Chip8) IsKeyPressed(key uint8) bool {
 // Every element in the slice represents one pixel color, which can be 0 (black) or 1 (white).
 func (c8 *Chip8) GetPixelFrameBuffer() []uint8 {
 	return c8.vram
+}
+
+// HandleKeyEvent alters the interpreter keypad memory according to the passed event data.
+func (c8 *Chip8) HandleKeyEvent(key uint8, up bool) {
+	// skip command keys (quit, none, etc.)
+	if key > 0xF {
+		return
+	}
+
+	if up {
+		c8.keypad[key] = 0
+	} else {
+		c8.keypad[key] = 1
+	}
 }

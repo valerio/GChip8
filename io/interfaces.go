@@ -37,5 +37,5 @@ const (
 
 // Input is an interface for a provider of keypresses.
 type Input interface {
-	Poll() Key
+	Poll() (Key, bool)
 }
