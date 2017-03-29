@@ -56,15 +56,19 @@ func mapSymbolToKey(keycode sdl.Keycode) Key {
 
 // Poll polls for an input event and return the key that was pressed (mapped to Chip8 keys)
 // and whether the event was for a key up or down event.
-func (i *SdlInput) Poll() (Key, bool) {
+func (i *SdlInput) Poll() *KeyEvent {
 	event := sdl.PollEvent()
+
+	if event == nil {
+		return nil
+	}
 
 	switch t := event.(type) {
 	case *sdl.KeyDownEvent:
-		return mapSymbolToKey(t.Keysym.Sym), false
+		return &KeyEvent{mapSymbolToKey(t.Keysym.Sym), false }
 	case *sdl.KeyUpEvent:
-		return mapSymbolToKey(t.Keysym.Sym), true
+		return &KeyEvent{mapSymbolToKey(t.Keysym.Sym), true }
 	}
 
-	return KeyNone, false
+	return &KeyEvent{KeyNone, false }
 }

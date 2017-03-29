@@ -37,6 +37,8 @@ func main() {
 }
 
 func run(path string) error {
+	var event *io.KeyEvent
+
 	if _, err := os.Stat(path); err != nil {
 		return fmt.Errorf("cannot open file '%s': %s", path, err)
 	}
@@ -53,11 +55,13 @@ func run(path string) error {
 		chip8.Step()
 		front.Draw(chip8)
 
-		k, up := input.Poll()
-		if k == io.KeyQuit {
-			return nil
-		}
+		for event = input.Poll(); event != nil; event = input.Poll() {
 
-		chip8.HandleKeyEvent(uint8(k), up)
+			if event.Key == io.KeyQuit {
+				return nil
+			}
+
+			chip8.HandleKeyEvent(uint8(event.Key), event.Up)
+		}
 	}
 }

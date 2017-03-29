@@ -13,6 +13,12 @@ type Frontend interface {
 // Key is the type for identifying a key on the Chip8 keypad.
 type Key uint8
 
+// KeyEvent is a type for representing keydown or keyup events.
+type KeyEvent struct {
+	Key Key
+	Up bool
+}
+
 // The possible values for keys
 const (
 	Key0 Key = iota
@@ -37,5 +43,5 @@ const (
 
 // Input is an interface for a provider of keypresses.
 type Input interface {
-	Poll() (Key, bool)
+	Poll() *KeyEvent
 }
