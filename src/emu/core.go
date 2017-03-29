@@ -96,6 +96,10 @@ func (c8 *Chip8) LoadRom(path string) {
 
 // Step executes a single cycle of emulation.
 func (c8 *Chip8) Step() {
+	if c8.stopped {
+		return
+	}
+
 	// fetch
 	opcode := util.CombineBytes(c8.memory[c8.pc+1], c8.memory[c8.pc])
 	c8.opcode = opcode
@@ -142,6 +146,8 @@ func (c8 *Chip8) HandleKeyEvent(key uint8, up bool) {
 	if key > 0xF {
 		return
 	}
+
+	c8.stopped = false
 
 	if up {
 		c8.keypad[key] = 0
