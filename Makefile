@@ -6,7 +6,7 @@ bootstrap:
 	make updatedeps
 
 build: clean vet lint
-	GOOS=darwin GOARCH=amd64 godep go build -v -o ./bin/GChip8 ./src/main
+	GOOS=darwin GOARCH=amd64 go build -v -o ./bin/GChip8 ./src/main
 
 clean:
 	rm -rf ./bin/*
