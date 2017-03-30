@@ -1,0 +1,8 @@
+*.o
+*.a
+*.so
+
+# external packages folder
+vendor/
+
+bin/
