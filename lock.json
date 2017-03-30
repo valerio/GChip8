@@ -1,0 +1,21 @@
+{
+    "memo": "",
+    "projects": [
+        {
+            "name": "github.com/urfave/cli",
+            "branch": "master",
+            "revision": "2526b57c56f30b50466c96c4133b1a4ad0f0191f",
+            "packages": [
+                "."
+            ]
+        },
+        {
+            "name": "github.com/veandco/go-sdl2",
+            "branch": "master",
+            "revision": "ba491708737fd263b055821b922909c847617680",
+            "packages": [
+                "sdl"
+            ]
+        }
+    ]
+}

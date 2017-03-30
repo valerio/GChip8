@@ -18,5 +18,7 @@ lint:
 	golint ./src/...
 
 updatedeps:
-	rm -rf Godeps
-	godep save ./src/...
+	rm -rf vendor
+	rm lock.json
+	dep init
+	

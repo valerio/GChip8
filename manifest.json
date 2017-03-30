@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "github.com/urfave/cli": {
+            "branch": "master"
+        },
+        "github.com/veandco/go-sdl2": {
+            "branch": "master"
+        }
+    }
+}
