@@ -6,3 +6,6 @@
 vendor/
 
 bin/
+
+# gogland folder
+.idea
