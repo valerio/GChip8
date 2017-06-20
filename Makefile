@@ -2,6 +2,7 @@ default: build
 
 bootstrap:
 	go get github.com/urfave/cli
+	go get github.com/veandco/go-sdl2
 	brew install sdl2
 	make updatedeps
 
