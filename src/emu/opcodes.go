@@ -367,7 +367,7 @@ func draw(c8 *Chip8) {
 			pixelUpdated := (colMask & pixelRow) != 0
 			pixelAddress := (x + col + ((y + row) * 64))
 
-			if pixelUpdated {
+			if pixelAddress < len(c8.vram) && pixelUpdated {
 				// if pixel was already 1, there's a collision
 				collision := c8.vram[pixelAddress] == 1
 
