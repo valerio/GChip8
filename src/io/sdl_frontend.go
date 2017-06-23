@@ -3,7 +3,6 @@ package io
 import (
 	"unsafe"
 
-	"github.com/valep27/GChip8/src/emu"
 	"github.com/veandco/go-sdl2/sdl"
 )
 
@@ -51,11 +50,11 @@ func (sf *SdlFrontend) Initialize() {
 }
 
 // Draw will draw on the window the contents of the emulator framebuffer.
-func (sf *SdlFrontend) Draw(emulator *emu.Chip8) {
+func (sf *SdlFrontend) Draw(framebuffer []uint8) {
 	pixels := width * height
 
 	for i := 0; i < pixels; i++ {
-		if emulator.GetPixelFrameBuffer()[i] == 0 {
+		if framebuffer[i] == 0 {
 			sf.fb[i] = 0
 		} else {
 			sf.fb[i] = 0xFFFFFFFF

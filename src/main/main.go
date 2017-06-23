@@ -51,9 +51,12 @@ func run(path string) error {
 	front.Initialize()
 	defer front.Close()
 
+	drawChan := make(chan []uint8)
+	go draw(front, drawChan)
+
 	for {
 		chip8.Step()
-		front.Draw(chip8)
+		drawChan <- chip8.GetPixelFrameBuffer()
 
 		for event = input.Poll(); event != nil; event = input.Poll() {
 
@@ -63,5 +66,12 @@ func run(path string) error {
 
 			chip8.HandleKeyEvent(uint8(event.Key), event.Up)
 		}
+	}
+}
+
+func draw(front io.SdlFrontend, c chan []uint8) {
+	for {
+		buffer := <-c
+		front.Draw(buffer)
 	}
 }
