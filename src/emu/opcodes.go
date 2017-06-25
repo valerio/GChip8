@@ -129,6 +129,8 @@ func clearScreen(c8 *Chip8) {
 	for i := 0; i < len(c8.vram); i++ {
 		c8.vram[i] = 0
 	}
+
+	c8.drawFlag = true
 	c8.pc += 2
 }
 
